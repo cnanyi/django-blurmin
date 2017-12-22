@@ -4,7 +4,7 @@
 # and also this names are used in corresponding templates.
 # each member consists from pattern and viewClass
 # for example:
-   class ModelViewSet(ViewSet):
+class ModelViewSet(ViewSet):
     """ Use view set member name prefix to direct attribute for specific member,
     for example: to pass template_name for 'list' member, attribute must have name: 'list_template_name' """
     members={'list':('',GridViewSetMember),'change':('change',ChangeViewSetMember)}

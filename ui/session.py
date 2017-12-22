@@ -16,7 +16,7 @@ from django.utils.encoding import force_text
 import pickle
 import hashlib
 from django.apps import apps
-import fcntl
+from ui import fcntl
 
 class SessionStore(SessionBase):
     """

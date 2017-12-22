@@ -3,7 +3,7 @@ from copy import deepcopy
 from django.db import transaction
 from time import sleep
 from django.utils.translation import ugettext as _
-from channels.channel import Group
+# from channels.channel import Group
 import math
 from django.utils.decorators import classonlymethod
 from django.views.decorators.csrf import csrf_exempt
@@ -42,7 +42,7 @@ def ng_get_model(form, initial, as_json=True, readonly_fields=[], render_fields=
     res = {'fields':{},'errors':'','content':{}}
     # for testing form errors look
     # form.errors[NON_FIELD_ERRORS] = form.error_class(["Form level ERROR!","Second ERROR"])
-    res['errors'] = str(form.errors[NON_FIELD_ERRORS]) if form.errors.has_key(NON_FIELD_ERRORS) else ''
+    res['errors'] = str(form.errors[NON_FIELD_ERRORS]) if NON_FIELD_ERRORS in form.errors else ''
     def get_model_field(name):
         try:
             if hasattr(form, '_model_forms'):
@@ -111,7 +111,7 @@ def ng_get_model(form, initial, as_json=True, readonly_fields=[], render_fields=
                 value = initial.get(name)
 #TODO this is temporary not for all cases?!
                 if getattr(form.instance,name,False):
-                   readonly_value = unicode(getattr(form.instance, name))
+                   readonly_value = getattr(form.instance, name)
             elif not form.is_bound and getattr(form, 'instance', False):
                 value = get_value_from_modelformset(form)
             else:
@@ -119,7 +119,7 @@ def ng_get_model(form, initial, as_json=True, readonly_fields=[], render_fields=
 
 
         if readonly_value is None:
-            readonly_value = unicode(none_value(value))
+            readonly_value = none_value(value)
         if not value and field.initial and not form.is_bound:
             value = field.initial
         if value is not None:
@@ -167,12 +167,12 @@ def ng_get_model(form, initial, as_json=True, readonly_fields=[], render_fields=
                                 display_value.append(_value)
                             v = {'id': field.prepare_value(v), 'unicode': ' '.join(display_value)}
                         else:
-                            v = {'id': field.prepare_value(v), 'unicode': unicode(v)}
+                            v = {'id': field.prepare_value(v), 'unicode': v}
                         _v.append(v)
                 value = _v
                 readonly_value = ','.join([v['unicode'] for v in value])
             else:
-                value = unicode(none_value(value))
+                value = none_value(value)
         else:
             if hasattr(field, 'queryset'):
                 value = []
@@ -195,7 +195,7 @@ def ng_get_model(form, initial, as_json=True, readonly_fields=[], render_fields=
     if isinstance(form, ModelForm) and getattr(form.instance, 'id', False):
         for name in readonly_fields:
             if not name in form.fields and hasattr(form.instance,name):
-                value = unicode(none_value(getattr(form.instance,name)))
+                value = none_value(getattr(form.instance,name))
                 prefixed = form.add_prefix(name).replace('-', '_')
                 res['fields'][prefixed] = {'value': value, 'data_type': 'textfield', 'error' : '',
                                    'help_text': '', 'is_readonly':True, 'readonly_value':value }
@@ -436,7 +436,7 @@ class DeleteView(SingleObjectTemplateResponseMixin, GetObjectMixin, BaseDetailVi
             #     q_ids.append(id)
             # self.get_queryset().filter(**{self.row_id_field_name + '__in':q_ids}).delete()
             return self.delete_success(request, *args, **kwargs)
-        except Exception,e:
+        except Exception as e:
             return self.delete_fail(request, *args, **kwargs)
 
     def delete_success(self, request, *args, **kwargs):
@@ -582,7 +582,7 @@ class ChangeView(edit.TemplateResponseMixin, ModelFormMixin, edit.ProcessFormVie
         return []
 
     def send_notification(self, level, title, text, obj):
-        from ma.notifications import send_to_recipients
+        # from ma.notifications import send_to_recipients
         notification = Notification()
         notification.action_object = obj
         notification.message = text

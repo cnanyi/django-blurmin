@@ -43,7 +43,7 @@ class UI(object):
     def register(self, class_view):
         # if not issubclass(class_view, View):
         #     raise ValueError('Need descendant of View class')
-        if not class_view in self._registry:
+        if class_view not in self._registry:
             self._registry.append(class_view)
 
 

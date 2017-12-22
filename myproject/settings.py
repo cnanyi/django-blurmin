@@ -111,15 +111,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -158,12 +158,12 @@ CHANNEL_LAYERS = {
     },
 }
 
-SESSION_ENGINE = 'ui.session'
-SESSION_FILE_PATH = BASE_DIR + '/../SESSION'
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
-SESSION_COOKIE_NAME = 'myproject'
-# enabled for reading cookie from javascript!!!
-SESSION_COOKIE_HTTPONLY=False
+# SESSION_ENGINE = 'ui.session'
+# SESSION_FILE_PATH = BASE_DIR + '/../SESSION'
+# SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+# SESSION_COOKIE_NAME = 'myproject'
+# # enabled for reading cookie from javascript!!!
+# SESSION_COOKIE_HTTPONLY=False
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_COOKIE_AGE = 12 * 60 * 60
 
@@ -182,4 +182,4 @@ SESSION_COOKIE_HTTPONLY=False
 LOGENTRY_MODEL_CLASS = 'django.contrib.admin.models.LogEntry'
 # CHANGELOG_MODEL_CLASS = 'webcoders.models.ChangeLog'
 # TINYMCE_SETUP_JS = ''
-from local_settings import *
+# from local_settings import *

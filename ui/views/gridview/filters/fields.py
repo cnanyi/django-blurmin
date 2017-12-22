@@ -21,7 +21,7 @@ class FieldFilter(object):
             self.model_field = get_model_field_from_path(self.datagrid.model, field_name)
             if not self.verbose_name:
                 if hasattr(self.model_field, 'verbose_name'):
-                    self.verbose_name = unicode(self.model_field.verbose_name)
+                    self.verbose_name = self.model_field.verbose_name
             if not self.verbose_name:
                 self.verbose_name = field_name
             if '__' in field_name:
